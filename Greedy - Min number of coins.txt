@@ -1,0 +1,14 @@
+public static int minCoins(int[] coins, int M, int V)
+    {
+      Array.Sort(coins, (a, b) =>
+      {
+        return b.CompareTo(a);
+      });
+      var res = 0;
+      for (int i = 0; i < coins.Length; i++)
+      {
+        res += V / coins[i];
+        V -= (V / coins[i]) * coins[i];
+      }
+      return res;
+    }

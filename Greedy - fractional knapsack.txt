@@ -1,0 +1,31 @@
+    public static double fractionalKnapsack(int W, Item[] arr, int n)
+    {
+      Array.Sort(arr, (a, b) => {
+        return b.value / b.weight - a.value / a.weight;
+      });
+
+      var maxProfit = 0.0;
+      var currentWeight = 0;
+      for (int i = 0; i < n; i++)
+      {
+        if (currentWeight == W)
+        {
+          break;
+        }
+        //we take whole elements
+        if (currentWeight + arr[i].weight <= W)
+        {
+          currentWeight += arr[i].weight;
+          maxProfit += arr[i].value;
+        }
+        //we take fraction of element
+        else
+        {
+          var remainWeight = W - currentWeight;
+          currentWeight += remainWeight;
+          maxProfit += arr[i].value * ((double)remainWeight / arr[i].weight);
+        }
+      }
+
+      return maxProfit;
+    }

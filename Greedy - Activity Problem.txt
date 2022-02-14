@@ -1,0 +1,78 @@
+// { Driver Code Starts
+//Initial Template for C#
+
+using System;
+using System.Numerics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DriverCode
+{
+
+    class GFG
+    {
+        static void Main(string[] args)
+        {
+            int testcases;// Taking testcase as input
+            testcases = Convert.ToInt32(Console.ReadLine());
+            while (testcases-- > 0)// Looping through all testcases
+            {
+                int N = Convert.ToInt32(Console.ReadLine());
+                int[] start = new int[N];
+                int[] end = new int[N];
+                string elements = Console.ReadLine().Trim();
+                elements = elements + " " + "0";
+                start = Array.ConvertAll(elements.Split(), int.Parse);
+                elements = Console.ReadLine().Trim();
+                elements = elements + " " + "0";
+                end = Array.ConvertAll(elements.Split(), int.Parse);
+                Solution obj = new Solution();
+                int res = obj.activitySelection(start, end, N);
+                Console.Write(res+"\n");
+          }
+
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for C#
+
+
+    class Solution
+    {
+        //Complete this function
+        public int activitySelection(int[] start, int[] end, int n)
+        {
+            var list = new List<(int, int, int)>();
+            
+            for(int i = 0; i < n; i++)
+            {
+                list.Add((start[i], end[i], i+1));
+            }
+            
+            list.Sort((a,b) => {
+               var diff = a.Item2.CompareTo(b.Item2);
+               return diff == 0 ? a.Item3.CompareTo(b.Item3) : diff;
+            });
+            
+            var maxResult = 1;
+            var previousActivity = list[0];
+            for(int i = 1; i < n; i++)
+            {
+                var currentActivity = list[i];
+                if(currentActivity.Item1 > previousActivity.Item2)
+                {
+                    maxResult++;
+                    previousActivity = currentActivity;
+                }
+            }
+            
+            return maxResult;
+        }
+
+    }
+

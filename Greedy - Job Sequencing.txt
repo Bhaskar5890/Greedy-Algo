@@ -1,0 +1,33 @@
+public static int[] JobScheduling(Job[] arr, int n)
+    {
+      Array.Sort(arr, (a, b) => {
+        var diff = b.profit.CompareTo(a.profit);
+        return diff == 0 ? a.id.CompareTo(b.id) : diff;
+      });
+      var maxDeadline = Int32.MinValue;
+      for (int i = 0; i < n; i++)
+      {
+        maxDeadline = Math.Max(maxDeadline, arr[i].dead);
+      }
+      var res = new int[maxDeadline + 1];
+      Array.Fill(res, -1);
+      var maxProfit = 0;
+      var noOfJobs = 0;
+
+      for (int i = 0; i < n; i++)
+      {
+        Console.WriteLine(arr[i].id + " " + arr[i].dead + " " + arr[i].profit);
+        for (var dl = arr[i].dead; dl > 0; dl--)
+        {
+          if (res[dl] == -1)
+          {
+            maxProfit += arr[i].profit;
+            noOfJobs++;
+            res[dl] = arr[i].id;
+            break;
+          }
+        }
+      }
+
+      return new int[] { noOfJobs, maxProfit };
+    }

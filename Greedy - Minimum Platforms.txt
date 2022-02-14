@@ -1,0 +1,103 @@
+// { Driver Code Starts
+//Initial Template for C#
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DriverCode
+{
+
+    class GFG
+    {
+        static void Main(string[] args)
+        {
+            int testcases;// Taking testcase as input
+            testcases = Convert.ToInt32(Console.ReadLine());
+            while (testcases-- > 0)// Looping through all testcases
+            {
+
+                int n = Convert.ToInt32(Console.ReadLine());
+                int[] arr = new int[n];
+                var stringArray = Console.ReadLine().Split(' ');
+                int j = 0;
+                for (int i = 0; i < stringArray.Length; i++)
+                {
+
+                    if (stringArray[i].CompareTo(" ") != -1)
+                    {
+                        arr[j] = int.Parse(stringArray[i]);
+
+                        j++;
+                    }
+                }
+                int[] dep = new int[n];
+                stringArray = Console.ReadLine().Split(' ');
+                j = 0;
+                for (int i = 0; i < stringArray.Length; i++)
+                {
+
+                    if (stringArray[i].CompareTo(" ") != -1)
+                    {
+                        dep[j] = int.Parse(stringArray[i]);
+                        j++;
+                    }
+                }
+                Solution obj = new Solution();
+                var res = obj.findPlatform(arr, dep,n);
+                Console.WriteLine(res);
+            }
+
+        }
+    }
+
+
+
+    
+ // } Driver Code Ends
+//User function Template for C#
+
+    class Solution
+    {
+        
+        //Function to find the minimum number of platforms required at the
+        //railway station such that no train waits.
+        public int findPlatform(int[] arr, int[] dep,int n)
+        {
+            if(arr.Length == 0)
+            {
+                return 0;
+            }
+            Array.Sort(arr);
+            Array.Sort(dep);
+            
+            var result = 1;
+            var platforms = 1;
+            int arrive = 1;
+            int depart = 0;
+            
+            while(arrive < arr.Length && depart < dep.Length)
+            {
+                if(arr[arrive] <= dep[depart])
+                {
+                    arrive++;
+                    platforms++;
+                }
+                else
+                {
+                    depart++;
+                    platforms--;
+                }
+                
+                result = Math.Max(result, platforms);
+            }
+            
+            return result;
+        }
+    }
+
+}
+
+// { Driver Code Starts.  // } Driver Code Ends

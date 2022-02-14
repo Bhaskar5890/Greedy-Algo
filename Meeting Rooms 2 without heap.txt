@@ -1,0 +1,40 @@
+class Solution {
+    public int solve(List<List<int>> A) 
+    {
+        var start = new int[A.Count];
+        var end = new int[A.Count];
+
+        int index = 0;
+        foreach(var item in A)
+        {
+            start[index] = item[0];
+            end[index] = item[1];
+            index++;
+        }
+        Array.Sort(start);
+        Array.Sort(end);
+
+        var res = 0;
+        var count = 0;
+
+        var s = 0;
+        var e = 0;
+
+        while(s < start.Length)
+        {
+            if(start[s] < end[e])
+            {
+                s++;
+                count++;
+            }
+            else
+            {
+                e++;
+                count--;
+            }
+            res = Math.Max(res, count);
+        }
+
+        return res;
+    }
+}

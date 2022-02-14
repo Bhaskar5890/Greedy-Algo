@@ -1,0 +1,40 @@
+class Solution {
+    public int solve(List<List<int>> A) 
+    {
+      if (A == null || A.Count == 0)
+      {
+        return 0;
+      }
+      A.Sort((a, b) => a[0].CompareTo(b[0]));
+      int res = 0;
+      int cnt = 0;
+      SortedSet<(int, int, int)> minHeap = new SortedSet<(int, int, int)>(
+              Comparer<(int, int, int)>.Create((a, b) => {
+                var diff = a.Item2.CompareTo(b.Item2);
+                if (diff == 0)
+                {
+                  var item1Diff = a.Item1.CompareTo(b.Item1);
+                  return item1Diff == 0 ? a.Item3.CompareTo(b.Item3) : item1Diff;
+                }
+                else
+                {
+                  return diff;
+                }
+              }));
+        cnt++;
+      minHeap.Add((A[0][0], A[0][1], cnt));
+      for(int i = 1; i<A.Count; i++)
+      {
+            var currentInterval = A[i];
+            while(minHeap.Count > 0 && minHeap.FirstOrDefault().Item2 <= currentInterval[0])
+            {
+                minHeap.Remove(minHeap.FirstOrDefault());
+            }
+            cnt++;
+            minHeap.Add((currentInterval[0], currentInterval[1], cnt));
+            res = Math.Max(res, minHeap.Count);
+      }
+
+      return res;    
+    }
+}
